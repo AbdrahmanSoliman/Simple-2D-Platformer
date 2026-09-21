@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 3337328927821650792}
   - component: {fileID: 8597863146687774999}
   - component: {fileID: 6328343730360147985}
-  - component: {fileID: 8859469493018261792}
   m_Layer: 0
-  m_Name: EnemyPatroller
+  m_Name: BaseEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,22 +167,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8859469493018261792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957798063804516930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc29edce88a4bfb4a80fede897b5b0d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Platformer.Enemies.EnemyPatroller
-  _id: 1
-  _patrolPointA: {fileID: 0}
-  _patrolPointB: {fileID: 0}
-  _moveSpeed: 3
 --- !u!1 &4325979619600119667
 GameObject:
   m_ObjectHideFlags: 0
