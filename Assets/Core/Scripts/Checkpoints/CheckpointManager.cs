@@ -1,5 +1,8 @@
 using System;
 using UnityEngine;
+using Platformer.Player;
+using Platformer.Pickups;
+using Platformer.SaveLoad;
 
 namespace Platformer.Checkpoints
 {
@@ -42,6 +45,30 @@ namespace Platformer.Checkpoints
             _activeCheckpointId = checkpoint.Id;
             _respawnPosition = checkpoint.Position;
             OnCheckpointReached?.Invoke(checkpoint);
+
+            SaveCurrentState(checkpoint);
+        }
+
+        private void SaveCurrentState(Checkpoint checkpoint)
+        {
+            var playerHealth = FindFirstObjectByType<PlayerHealth>();
+            var coinTracker = FindFirstObjectByType<CoinTracker>();
+            var enemyTracker = FindFirstObjectByType<DefeatedEnemyTracker>();
+
+            var saveData = new SaveData
+            {
+                playerHP = (playerHealth != null) ? playerHealth.CurrentHP : 4,
+                playerX = checkpoint.Position.x,
+                playerY = checkpoint.Position.y,
+                coinCount = (coinTracker != null) ? coinTracker.Count : 0,
+                collectedCoinIds = (coinTracker != null) ? coinTracker.GetCollectedIds() : Array.Empty<int>(),
+                defeatedEnemyIds = (enemyTracker != null) ? enemyTracker.GetDefeatedIds() : Array.Empty<int>(),
+                lastCheckpointId = checkpoint.Id,
+                checkpointX = checkpoint.Position.x,
+                checkpointY = checkpoint.Position.y
+            };
+
+            SaveLoadManager.Save(saveData);
         }
 
         public void Restore(int checkpointId, Vector2 position)

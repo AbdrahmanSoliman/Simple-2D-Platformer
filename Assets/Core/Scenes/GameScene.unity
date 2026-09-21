@@ -2055,8 +2055,8 @@ MonoBehaviour:
   _playerController: {fileID: 85791640}
   _playerHealth: {fileID: 85791643}
   _checkpointManager: {fileID: 209200459}
-  _coinTracker: {fileID: 0}
-  _enemyTracker: {fileID: 0}
+  _coinTracker: {fileID: 1125829188}
+  _enemyTracker: {fileID: 11950250}
 --- !u!1 &1290909726
 GameObject:
   m_ObjectHideFlags: 0
