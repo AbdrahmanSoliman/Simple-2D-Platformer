@@ -35,12 +35,11 @@ namespace Platformer.Checkpoints
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (IsActivated) return;
+
             if (other.GetComponent<PlayerController>() != null || other.CompareTag("Player"))
             {
-                if (!IsActivated)
-                {
-                    Activate();
-                }
+                Activate();
             }
         }
 

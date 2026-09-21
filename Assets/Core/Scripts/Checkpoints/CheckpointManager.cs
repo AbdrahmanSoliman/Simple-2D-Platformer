@@ -42,6 +42,11 @@ namespace Platformer.Checkpoints
 
         private void HandleCheckpointActivated(Checkpoint checkpoint)
         {
+            if (checkpoint.Id <= _activeCheckpointId)
+            {
+                return;
+            }
+
             _activeCheckpointId = checkpoint.Id;
             _respawnPosition = checkpoint.Position;
             OnCheckpointReached?.Invoke(checkpoint);

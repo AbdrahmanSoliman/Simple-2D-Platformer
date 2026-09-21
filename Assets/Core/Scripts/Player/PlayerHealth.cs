@@ -10,6 +10,10 @@ namespace Platformer.Player
         [SerializeField] private int _maxHP = 4;
         [SerializeField] private float _invincibilityDuration = 1f;
 
+        [Header("Visual References")]
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Color _invincibleColor;
+
         private int _currentHP;
         private float _invincibilityTimer;
 
@@ -24,6 +28,11 @@ namespace Platformer.Player
         private void Awake()
         {
             _currentHP = _maxHP;
+
+            if (_spriteRenderer == null)
+            {
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+            }
         }
 
         private void Update()
@@ -31,6 +40,11 @@ namespace Platformer.Player
             if (_invincibilityTimer > 0f)
             {
                 _invincibilityTimer -= Time.deltaTime;
+
+                if (!IsInvincible)
+                {
+                    UpdateInvincibleVisuals(false);
+                }
             }
         }
 
@@ -40,6 +54,8 @@ namespace Platformer.Player
 
             _currentHP = Mathf.Max(0, _currentHP - amount);
             _invincibilityTimer = _invincibilityDuration;
+
+            UpdateInvincibleVisuals(IsInvincible);
 
             OnHealthChanged?.Invoke(_currentHP, _maxHP);
 
@@ -61,6 +77,18 @@ namespace Platformer.Player
             _currentHP = Mathf.Clamp(hp, 0, _maxHP);
             _invincibilityTimer = 0f;
             OnHealthChanged?.Invoke(_currentHP, _maxHP);
+        }
+
+        private void UpdateInvincibleVisuals(bool isInvincible)
+        {
+            if (isInvincible)
+            {
+                _spriteRenderer.color = _invincibleColor;
+            }
+            else
+            {
+                _spriteRenderer.color = Color.white;
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
