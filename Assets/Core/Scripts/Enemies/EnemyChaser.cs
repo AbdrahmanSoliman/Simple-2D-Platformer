@@ -38,10 +38,13 @@ namespace Platformer.Enemies
         public int Id => _id;
         public event Action<IEnemy> OnDied;
 
-        private void Start()
+        private void Awake()
         {
             _collider = GetComponent<Collider2D>();
+        }
 
+        private void Start()
+        {
             if (_obstacleMask.value == 0)
             {
                 _obstacleMask = LayerMask.GetMask("Ground");

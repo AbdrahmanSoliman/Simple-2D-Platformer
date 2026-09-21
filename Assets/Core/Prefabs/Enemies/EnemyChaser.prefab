@@ -95,6 +95,7 @@ MonoBehaviour:
   _patrolSpeed: 2.5
   _chaseSpeed: 4.5
   _detectionRadius: 5
+  _stoppingDistance: 1
   _drawDetectionRadius: 1
   _player: {fileID: 0}
   _obstacleMask:

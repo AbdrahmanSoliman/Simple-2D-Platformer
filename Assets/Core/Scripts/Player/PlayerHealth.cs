@@ -70,6 +70,7 @@ namespace Platformer.Player
             _currentHP = _maxHP;
             _invincibilityTimer = 0f;
             OnHealthChanged?.Invoke(_currentHP, _maxHP);
+            UpdateInvincibleVisuals(false);
         }
 
         public void Restore(int hp)
@@ -77,6 +78,7 @@ namespace Platformer.Player
             _currentHP = Mathf.Clamp(hp, 0, _maxHP);
             _invincibilityTimer = 0f;
             OnHealthChanged?.Invoke(_currentHP, _maxHP);
+            UpdateInvincibleVisuals(false);
         }
 
         private void UpdateInvincibleVisuals(bool isInvincible)
