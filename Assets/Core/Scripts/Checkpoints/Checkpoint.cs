@@ -45,14 +45,19 @@ namespace Platformer.Checkpoints
 
         public void Activate()
         {
-            IsActivated = true;
+            SetActivated(true);
+
+            OnActivated?.Invoke(this);
+        }
+
+        public void SetActivated(bool activated)
+        {
+            IsActivated = activated;
 
             if (_spriteRenderer != null)
             {
-                _spriteRenderer.color = _activeColor;
+                _spriteRenderer.color = activated ? _activeColor : _inactiveColor;
             }
-
-            OnActivated?.Invoke(this);
         }
     }
 }

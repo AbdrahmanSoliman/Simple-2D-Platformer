@@ -23,6 +23,7 @@ namespace Platformer.Enemies
         [Header("Chase Settings")]
         [SerializeField] private float _chaseSpeed = 4.5f;
         [SerializeField] private float _detectionRadius = 5f;
+        [SerializeField] private float _stoppingDistance = 0.75f;
         [SerializeField] private bool _drawDetectionRadius = true;
         [SerializeField] private Transform _player;
 
@@ -32,12 +33,15 @@ namespace Platformer.Enemies
 
         private State _state = State.Patrolling;
         private Transform _currentTarget;
+        private Collider2D _collider;
 
         public int Id => _id;
         public event Action<IEnemy> OnDied;
 
         private void Start()
         {
+            _collider = GetComponent<Collider2D>();
+
             if (_obstacleMask.value == 0)
             {
                 _obstacleMask = LayerMask.GetMask("Ground");
@@ -115,9 +119,15 @@ namespace Platformer.Enemies
             if (_player == null) return;
 
             float distanceX = _player.position.x - transform.position.x;
+
+            if (Mathf.Abs(distanceX) <= _stoppingDistance)
+            {
+                return;
+            }
+
             UpdateFacing(distanceX);
 
-            if (Mathf.Abs(distanceX) < 0.05f || IsBlockedByObstacle(distanceX))
+            if (IsBlockedByObstacle(distanceX))
             {
                 return;
             }
@@ -131,7 +141,8 @@ namespace Platformer.Enemies
             if (_obstacleMask.value == 0) return false;
 
             Vector2 direction = Vector2.right * Mathf.Sign(directionX);
-            Vector2 origin = (Vector2)transform.position + direction * 0.51f;
+            float halfWidth = _collider != null ? _collider.bounds.extents.x : 0.5f;
+            Vector2 origin = (Vector2)transform.position + direction * halfWidth;
 
             RaycastHit2D hit = Physics2D.BoxCast(origin, new Vector2(0.1f, 0.8f), 0f, direction, _obstacleCheckDistance, _obstacleMask);
             return hit.collider != null && hit.collider.gameObject != gameObject && !hit.collider.transform.IsChildOf(transform);

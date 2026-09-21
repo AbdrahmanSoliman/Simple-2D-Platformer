@@ -27,6 +27,17 @@ namespace Platformer.Player
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _rb.freezeRotation = true;
+
+            if (_rb.sharedMaterial == null)
+            {
+                _rb.sharedMaterial = new PhysicsMaterial2D("PlayerMovement")
+                {
+                    friction = 0f,
+                    bounciness = 0f
+                };
+            }
+
             _playerInput = new PlayerInput();
         }
 

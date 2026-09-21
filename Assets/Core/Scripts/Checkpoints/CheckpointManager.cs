@@ -49,6 +49,7 @@ namespace Platformer.Checkpoints
 
             _activeCheckpointId = checkpoint.Id;
             _respawnPosition = checkpoint.Position;
+            UpdateCheckpointVisuals();
             OnCheckpointReached?.Invoke(checkpoint);
 
             SaveCurrentState(checkpoint);
@@ -80,14 +81,15 @@ namespace Platformer.Checkpoints
         {
             _activeCheckpointId = checkpointId;
             _respawnPosition = position;
+            UpdateCheckpointVisuals();
+        }
 
+        private void UpdateCheckpointVisuals()
+        {
             var checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
             foreach (var checkpoint in checkpoints)
             {
-                if (checkpoint.Id == checkpointId)
-                {
-                    checkpoint.Activate();
-                }
+                checkpoint.SetActivated(checkpoint.Id <= _activeCheckpointId);
             }
         }
     }
